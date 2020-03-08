@@ -50,16 +50,24 @@ class Personenakte():
                 print(key, ' - ', value)
 
 class Visitenkarte(Personenakte):
+    vk_dict = {'fullName': '', 'Postal': '', 'Kontakt': ''}
 
-    print(Personenakte.reference_dict['Vorname'])
-    exit(code=9)
-    vk_dict = {'fullName': '', 'Postal' : '', 'Kontakt' : ''}
-    vk_dict['fullName'] = Personenakte.reference_dict['Vorname'] + ' ' + Personenakte.reference_dict['Nachname']
-    vk_dict['Postal'] = Personenakte.reference_dict['Straße'] + ' ' + Personenakte.reference_dict['Hausnummer'] + ' ' + \
-                        Personenakte.reference_dict['PLZ'] + Personenakte.reference_dict['Ort']
-    vk_dict['Kontakt'] = Personenakte.reference_dict['Telefon'] + ' ' + Personenakte.reference_dict['E-Mail']
+    def __init__(self, *args):
+        try:
+            self.args = dict(*args)
+            in_keys = self.args.keys()
+            in_items = self.args.items()
+            for key,value in Personenakte.reference_dict.items():
+                if key in in_keys:
+                    Personenakte.reference_dict[key] = self.args[key]
+                else:
+                    print("Hae?")
 
-    print(vk_dict)
+            self.vk_dict['fullName'] = Personenakte.reference_dict['Vorname'] + ' ' + Personenakte.reference_dict['Nachname']
+
+        except TypeError:
+            pass
+            # What to do if invalid parameters are passed
 
     def midiprint(self):
         for key, value in self.vk_dict.items():
@@ -80,7 +88,7 @@ Akte1 = Personenakte(entry)
 #print("================")
 #Akte1.midiprint()
 
-vk = Visitenkarte(Akte1)
+vk = Visitenkarte(entry)
 
 vk.midiprint()
 
